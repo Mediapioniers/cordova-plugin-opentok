@@ -363,6 +363,7 @@ OTObserveVideoContainer = (function() {
 })();
 
 MutationObserver = MutationObserver || WebKitMutationObserver;
+
 OTDomObserver = new MutationObserver(function(mutations) {
   var checkNewNode, checkRemovedNode, getVideoContainer, mutation, node, videoContainer, _i, _j, _k, _len, _len1, _len2, _ref, _ref1;
   getVideoContainer = function(node) {
@@ -661,7 +662,7 @@ var TBSession,
 
 TBSession = (function() {
   TBSession.prototype.connect = function(token, connectCompletionCallback) {
-    var errorCallback, successCallback;
+    var errorCallback;
     this.token = token;
     if (typeof connectCompletionCallback !== "function" && (connectCompletionCallback != null)) {
       TB.showError("Session.connect() takes a token and an optional completionHandler");
@@ -671,12 +672,10 @@ TBSession = (function() {
       errorCallback = function(error) {
         return connectCompletionCallback(error);
       };
-      successCallback = function() {
-        return connectCompletionCallback(null);
-      };
+      this.on('sessionConnected', connectCompletionCallback);
     }
     Cordova.exec(this.eventReceived, TBError, OTPlugin, "addEvent", ["sessionEvents"]);
-    Cordova.exec(successCallback, errorCallback, OTPlugin, "connect", [this.token]);
+    Cordova.exec(TBSuccess, errorCallback, OTPlugin, "connect", [this.token]);
   };
 
   TBSession.prototype.disconnect = function() {
