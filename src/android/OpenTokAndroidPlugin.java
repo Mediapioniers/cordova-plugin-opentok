@@ -376,7 +376,7 @@ public class OpenTokAndroidPlugin extends CordovaPlugin
         public void onStreamCreated(PublisherKit arg0, Stream arg1) {
             Log.i(TAG, "publisher stream received");
             streamCollection.put(arg1.getStreamId(), arg1);
-            
+
             streamHasAudio.put(arg1.getStreamId(), arg1.hasAudio());
             streamHasVideo.put(arg1.getStreamId(), arg1.hasVideo());
             JSONObject videoDimensions = new JSONObject();
@@ -669,13 +669,11 @@ public class OpenTokAndroidPlugin extends CordovaPlugin
             Log.i(TAG, "adding new event - " + args.getString(0));
             myEventListeners.put(args.getString(0), callbackContext);
         } else if (action.equals("connect")) {
-            isDisconnecting = false;
             Log.i(TAG, "connect command called");
             mSession.connect(args.getString(0));
-            callbackContext.success();
         } else if (action.equals("disconnect")) {
             isDisconnecting = true;
-            myPublisher.destroyPublisher();
+            myPublisher = null;
             mSession.disconnect();
         } else if (action.equals("publish")) {
             if (sessionConnected) {
@@ -1029,7 +1027,7 @@ public class OpenTokAndroidPlugin extends CordovaPlugin
     @Override
     public void onStreamVideoDimensionsChanged(Session session, Stream stream, int width, int height) {
         JSONObject oldValue = this.streamVideoDimensions.get(stream.getStreamId());
-        
+
         JSONObject newValue = new JSONObject();
         try {
             newValue.put("width", width);
@@ -1116,7 +1114,7 @@ public class OpenTokAndroidPlugin extends CordovaPlugin
                     params.put("session_id", sessionId);
                     if (connectionId != null) {
                         params.put("action", "cp_on_connect");
-                        params.put("connectionId", connectionId);                
+                        params.put("connectionId", connectionId);
                     } else {
                         params.put("action", "cp_initialize");
                     }

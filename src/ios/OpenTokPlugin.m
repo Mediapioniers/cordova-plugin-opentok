@@ -369,8 +369,6 @@
     }
 }
 
-
-
 #pragma mark Session Methods
 - (void)connect:(CDVInvokedUrlCommand *)command{
     NSLog(@"iOS Connecting to Session");
@@ -386,11 +384,8 @@
         [err setObject:error.localizedDescription forKey:@"message"];
         [err setObject:code forKey:@"code"];
         pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR messageAsDictionary:err];
-    } else {
-        pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK];
+        [self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
     }
-    [self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
-
 }
 
 // Called by session.disconnect()
