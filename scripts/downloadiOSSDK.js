@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 
 module.exports = function (context) {
-    var IosSDKVersion = "OpenTok-iOS-2.16.1";
+    var IosSDKVersion = "OpenTok-iOS-2.16.2";
     var downloadFile = require('./downloadFile.js'),
         exec = require('./exec/exec.js'),
         Q = context.requireCordovaModule('q'),
