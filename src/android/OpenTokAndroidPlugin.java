@@ -342,7 +342,7 @@ public class OpenTokAndroidPlugin extends CordovaPlugin
 
             this.removeView();
             if (this.mPublisher != null) {
-                this.mPublisher.destroy();
+                // this.mPublisher.destroy();
                 this.mPublisher = null;
             }
         }
@@ -673,7 +673,7 @@ public class OpenTokAndroidPlugin extends CordovaPlugin
             mSession.connect(args.getString(0));
         } else if (action.equals("disconnect")) {
             isDisconnecting = true;
-            myPublisher = null;
+            myPublisher.destroyPublisher();
             mSession.disconnect();
         } else if (action.equals("publish")) {
             if (sessionConnected) {
