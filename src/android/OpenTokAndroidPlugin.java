@@ -342,7 +342,7 @@ public class OpenTokAndroidPlugin extends CordovaPlugin
 
             this.removeView();
             if (this.mPublisher != null) {
-                // this.mPublisher.destroy();
+                this.mPublisher.destroy();
                 this.mPublisher = null;
             }
         }
