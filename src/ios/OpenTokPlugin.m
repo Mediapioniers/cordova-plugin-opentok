@@ -59,7 +59,7 @@
     [payload setObject:@"3.4.3" forKey:@"cp_version"];
     NSMutableDictionary *logData = [[NSMutableDictionary alloc]init];
     [logData setObject:apiKey forKey:@"partner_id"];
-    [logData setObject:@"2.16.2" forKey:@"build"];
+    [logData setObject:@"2.16.3" forKey:@"build"];
     [logData setObject:@"https://github.com/opentok/cordova-plugin-opentok" forKey:@"source"];
     [logData setObject:@"info" forKey:@"payload_type"];
     [logData setObject:payload forKey:@"payload"];
@@ -108,7 +108,7 @@
     NSLog(@"iOS creating Publisher");
     /* properties: [name, position.top, position.left, width, height, zIndex,
         publishAudio, publishVideo, cameraName, ratios.widthRatio, ratios.heightRatio,
-        audioFallbackEnabled, audioBitrate, audioSource, videoSource, frameRate, cameraResolution]
+        audioFallbackEnabled, audioBitrate, audioSource, videoSource, frameRate, cameraResolution, fitMode]
     */
     // initialize publisher settings
     OTPublisherSettings * _publisherSettings = [[OTPublisherSettings alloc] init];
@@ -119,6 +119,7 @@
     BOOL bpubVideoTrack;
     enum OTCameraCaptureFrameRate finalCameraFrameRate;
     enum OTCameraCaptureResolution finalCameraResolution;
+    enum OTVideoViewScaleBehavior finalFitMode;
 
     // Get Parameters
     NSString* name = [command.arguments objectAtIndex:0];
@@ -136,6 +137,7 @@
     NSString* audioTrack = [command.arguments objectAtIndex: 13];
     NSString* videoTrack = [command.arguments objectAtIndex: 14];
     NSString* cameraResolution = [command.arguments objectAtIndex: 16];
+    NSString* fitMode = [command.arguments objectAtIndex: 17];
 
     // Sanitize publisher properties
     if ([cameraResolution isEqualToString:@"1280x720"]) {
@@ -153,6 +155,12 @@
       finalCameraFrameRate = OTCameraCaptureFrameRate1FPS;
     } else {
       finalCameraFrameRate = OTCameraCaptureFrameRate30FPS;
+    }
+
+    if ([fitMode isEqualToString:@"contain"]) {
+        finalFitMode = OTVideoViewScaleBehaviorFit;
+    } else {
+        finalFitMode = OTVideoViewScaleBehaviorFill;
     }
 
     bpubAudio = [publishAudio isEqualToString:@"false"] ? NO : YES;
@@ -175,6 +183,7 @@
     [_publisher setPublishAudio:bpubAudio];
     [_publisher setPublishVideo:bpubVideo];
     [_publisher setAudioFallbackEnabled:baudioFallbackEnabled];
+    [_publisher setViewScaleBehavior:finalFitMode];
     [self.webView.superview addSubview:_publisher.view];
 
     [self setPosition: @"TBPublisher" top: top left: left width: width height: height];
@@ -417,6 +426,8 @@
 - (void)subscribe:(CDVInvokedUrlCommand*)command{
     NSLog(@"iOS subscribing to stream");
 
+    enum OTVideoViewScaleBehavior finalFitMode;
+
     // Get Parameters
     NSString* sid = [command.arguments objectAtIndex:0];
 
@@ -426,6 +437,7 @@
     int width = [[command.arguments objectAtIndex:3] intValue];
     int height = [[command.arguments objectAtIndex:4] intValue];
     int zIndex = [[command.arguments objectAtIndex:5] intValue];
+    NSString* fitMode = [command.arguments objectAtIndex: 10];
 
     // Acquire Stream, then create a subscriber object and put it into dictionary
     OTStream* myStream = [streamDictionary objectForKey:sid];
@@ -433,6 +445,13 @@
     sub.audioLevelDelegate = self;
     sub.networkStatsDelegate = self;
     [_session subscribe:sub error:nil];
+
+    if ([fitMode isEqualToString:@"contain"]) {
+        finalFitMode = OTVideoViewScaleBehaviorFit;
+    } else {
+        finalFitMode = OTVideoViewScaleBehaviorFill;
+    }
+    [sub setViewScaleBehavior:finalFitMode];
 
     if ([[command.arguments objectAtIndex:6] isEqualToString:@"false"]) {
         [sub setSubscribeToAudio: NO];

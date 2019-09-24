@@ -442,7 +442,7 @@ TBPublisher = (function() {
     this.streamCreated = __bind(this.streamCreated, this);
     this.eventReceived = __bind(this.eventReceived, this);
     this.setSession = __bind(this.setSession, this);
-    var audioBitrate, audioFallbackEnabled, audioSource, cameraName, frameRate, height, insertMode, name, publishAudio, publishVideo, ratios, resolution, videoSource, width, zIndex, _ref, _ref1, _ref10, _ref2, _ref3, _ref4, _ref5, _ref6, _ref7, _ref8, _ref9;
+    var audioBitrate, audioFallbackEnabled, audioSource, cameraName, fitMode, frameRate, height, insertMode, name, publishAudio, publishVideo, ratios, resolution, videoSource, width, zIndex, _ref, _ref1, _ref10, _ref11, _ref2, _ref3, _ref4, _ref5, _ref6, _ref7, _ref8, _ref9;
     this.sanitizeInputs(one, two);
     pdebug("creating publisher", {});
     this.position = getPosition(this.pubElement);
@@ -458,6 +458,7 @@ TBPublisher = (function() {
     videoSource = "true";
     frameRate = 30;
     resolution = "640X480";
+    fitMode = "cover";
     insertMode = "replace";
     if (this.properties != null) {
       width = (_ref = this.properties.width) != null ? _ref : this.position.width;
@@ -470,6 +471,7 @@ TBPublisher = (function() {
       videoSource = (_ref7 = this.properties.videoSource) != null ? _ref7 : videoSource;
       frameRate = (_ref8 = this.properties.frameRate) != null ? _ref8 : frameRate;
       resolution = (_ref9 = this.properties.resolution) != null ? _ref9 : resolution;
+      fitMode = (_ref10 = this.properties.fitMode) != null ? _ref10 : fitMode;
       if ((this.properties.publishAudio != null) && this.properties.publishAudio === false) {
         publishAudio = "false";
       }
@@ -485,7 +487,7 @@ TBPublisher = (function() {
       if ((this.properties.videoSource != null) || this.properties.videoSource === false) {
         videoSource = "false";
       }
-      insertMode = (_ref10 = this.properties.insertMode) != null ? _ref10 : insertMode;
+      insertMode = (_ref11 = this.properties.insertMode) != null ? _ref11 : insertMode;
     }
     if ((width == null) || width === 0 || (height == null) || height === 0) {
       width = DefaultWidth;
@@ -502,7 +504,7 @@ TBPublisher = (function() {
     }
     this.position = getPosition(this.pubElement);
     OT.getHelper().eventing(this);
-    Cordova.exec(TBSuccess, TBError, OTPlugin, "initPublisher", [name, this.position.top, this.position.left, width, height, zIndex, publishAudio, publishVideo, cameraName, ratios.widthRatio, ratios.heightRatio, audioFallbackEnabled, audioBitrate, audioSource, videoSource, frameRate, resolution]);
+    Cordova.exec(TBSuccess, TBError, OTPlugin, "initPublisher", [name, this.position.top, this.position.left, width, height, zIndex, publishAudio, publishVideo, cameraName, ratios.widthRatio, ratios.heightRatio, audioFallbackEnabled, audioBitrate, audioSource, videoSource, frameRate, resolution, fitMode]);
     Cordova.exec(this.eventReceived, TBSuccess, OTPlugin, "addEvent", ["publisherEvents"]);
   }
 
@@ -1148,7 +1150,7 @@ TBSubscriber = (function() {
     this.disconnected = __bind(this.disconnected, this);
     this.connected = __bind(this.connected, this);
     this.eventReceived = __bind(this.eventReceived, this);
-    var divPosition, height, insertMode, name, obj, position, ratios, subscribeToAudio, subscribeToVideo, width, zIndex, _ref, _ref1;
+    var divPosition, fitMode, height, insertMode, name, obj, position, ratios, subscribeToAudio, subscribeToVideo, width, zIndex, _ref, _ref1, _ref2;
     if (divObject instanceof Element) {
       this.element = divObject;
       this.id = this.element.id;
@@ -1162,10 +1164,12 @@ TBSubscriber = (function() {
     subscribeToVideo = "true";
     zIndex = TBGetZIndex(this.element);
     insertMode = "replace";
+    fitMode = "cover";
     if ((properties != null)) {
       width = properties.width || divPosition.width;
       height = properties.height || divPosition.height;
-      name = (_ref = properties.name) != null ? _ref : "";
+      fitMode = (_ref = properties.fitMode) != null ? _ref : fitMode;
+      name = (_ref1 = properties.name) != null ? _ref1 : "";
       subscribeToVideo = "true";
       subscribeToAudio = "true";
       if ((properties.subscribeToVideo != null) && properties.subscribeToVideo === false) {
@@ -1174,7 +1178,7 @@ TBSubscriber = (function() {
       if ((properties.subscribeToAudio != null) && properties.subscribeToAudio === false) {
         subscribeToAudio = "false";
       }
-      insertMode = (_ref1 = properties.insertMode) != null ? _ref1 : insertMode;
+      insertMode = (_ref2 = properties.insertMode) != null ? _ref2 : insertMode;
     }
     if ((width == null) || width === 0 || (height == null) || height === 0) {
       width = DefaultWidth;
@@ -1192,7 +1196,7 @@ TBSubscriber = (function() {
     position = getPosition(this.element);
     ratios = TBGetScreenRatios();
     OT.getHelper().eventing(this);
-    Cordova.exec(TBSuccess, TBError, OTPlugin, "subscribe", [stream.streamId, position.top, position.left, width, height, zIndex, subscribeToAudio, subscribeToVideo, ratios.widthRatio, ratios.heightRatio]);
+    Cordova.exec(TBSuccess, TBError, OTPlugin, "subscribe", [stream.streamId, position.top, position.left, width, height, zIndex, subscribeToAudio, subscribeToVideo, ratios.widthRatio, ratios.heightRatio, fitMode]);
     Cordova.exec(this.eventReceived, TBSuccess, OTPlugin, "addEvent", ["subscriberEvents"]);
     OT.updateViews();
   }

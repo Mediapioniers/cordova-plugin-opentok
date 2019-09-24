@@ -11,7 +11,7 @@
     ]
   },
   "dependencies": {
-    "@opentok/client": "2.16.1",
+    "@opentok/client": "2.16.3",
     "exec": "^0.2.0",
     "tar": "^2.0.0"
   },
