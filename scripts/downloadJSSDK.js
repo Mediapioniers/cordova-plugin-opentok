@@ -1,13 +1,19 @@
-(function () {
-  // properties
-  'use strict';
-  var nodeDependencies = require('./downloadNpmDependencies.js');
+#!/usr/bin/env node
 
-  // entry
-  module.exports = run;
-
-  // builds before plugin install hooks
-  function run (context) {
-    nodeDependencies.install(context);
-  }
-})();
+module.exports = function (context) {
+    var nodeDependencies = require('./downloadNpmDependencies.js');
+    nodeDependencies.install(context).then(() => {
+        var jsSDKVersion = "v2.17.3";
+        var downloadFile = require('./downloadFile.js'),
+            Q = require('q'),
+            deferral = new Q.defer();
+        console.log('Downloading OpenTok JS SDK ' + jsSDKVersion);
+        downloadFile('https://enterprise.opentok.com/' + jsSDKVersion + '/js/opentok.js', './opentok-web.js', function (err) {
+            if (!err) {
+                console.log('Downloaded OpenTok JS SDK ' + jsSDKVersion);
+                deferral.resolve();
+            }
+        });
+        return deferral.promise;
+    });
+};

@@ -36,11 +36,11 @@ window.OT = {
   initPublisher: function(one, two) {
     return new TBPublisher(one, two);
   },
-  initSession: function(apiKey, sessionId) {
+  initSession: function(apiKey, sessionId, options) {
     if (sessionId == null) {
       this.showError("OT.initSession takes 2 parameters, your API Key and Session ID");
     }
-    return new TBSession(apiKey, sessionId);
+    return new TBSession(apiKey, sessionId, options);
   },
   log: function(message) {
     return pdebug("TB LOG", message);
@@ -934,7 +934,7 @@ TBSession = class TBSession {
     return Cordova.exec(TBSuccess, TBError, OTPlugin, "unsubscribe", [subscriber.streamId]);
   }
 
-  constructor(apiKey, sessionId) {
+  constructor(apiKey, sessionId, options = {}) {
     this.publish = this.publish.bind(this);
     this.publish = this.publish.bind(this);
     this.resetElement = this.resetElement.bind(this);
@@ -954,13 +954,14 @@ TBSession = class TBSession {
     this.signalReceived = this.signalReceived.bind(this);
     this.apiKey = apiKey;
     this.sessionId = sessionId;
+    this.options = options;
     this.apiKey = this.apiKey.toString();
     this.connections = {};
     this.streams = {};
     this.subscribers = {};
     this.alreadyPublishing = false;
     OT.getHelper().eventing(this);
-    Cordova.exec(TBSuccess, TBSuccess, OTPlugin, "initSession", [this.apiKey, this.sessionId]);
+    Cordova.exec(TBSuccess, TBSuccess, OTPlugin, "initSession", [this.apiKey, this.sessionId, this.options.whitelist || false, this.options.proxyUrl]);
   }
 
   cleanUpDom() {

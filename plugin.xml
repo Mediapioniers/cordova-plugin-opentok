@@ -95,6 +95,6 @@
 
     <platform name="browser">
       <hook type="before_plugin_install" src="scripts/downloadJSSDK.js" />
-      <asset src="node_modules/@opentok/client/dist/js/opentok.js" target="opentok.js"/>
+      <asset src="opentok-web.js" target="opentok.js"/>
     </platform>
 </plugin>

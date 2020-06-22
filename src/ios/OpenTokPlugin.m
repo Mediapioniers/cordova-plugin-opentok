@@ -86,9 +86,20 @@
     // Get Parameters
     apiKey = [command.arguments objectAtIndex:0];
     sessionId = [command.arguments objectAtIndex:1];
+    Boolean whitelist = [command.arguments objectAtIndex:2];
+    NSString proxyUrl = [command.arguments objectAtIndex:3];
+
+    // OTSessionSettings
+    OTSessionSettings* _sessionSettings = [[OTSessionSettings alloc] init];
+    if (whitelist != [NSNull null]) {
+        _sessionSettings.ipWhitelist = whitelist;
+    }
+    if (proxyUrl != [NSNull null]) {
+        _sessionSettings.proxyURL = whitelist;
+    }
 
     // Create Session
-    _session = [[OTSession alloc] initWithApiKey: apiKey sessionId:sessionId delegate:self];
+    _session = [[OTSession alloc] initWithApiKey: apiKey sessionId:sessionId delegate:self settings: _sessionSettings];
 
     // Initialize Dictionary, contains DOM info for every stream
     subscriberDictionary = [[NSMutableDictionary alloc] init];
