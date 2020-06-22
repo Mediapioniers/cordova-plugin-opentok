@@ -655,7 +655,7 @@ public class OpenTokAndroidPlugin extends CordovaPlugin
 
             Session.Builder sessionBuilder = Session.Builder(this.cordova.getActivity().getApplicationContext(), apiKey, sessionId);
             if (whitelist != null) {
-                sessionBuilder.setIpWhiteList(whitelist);
+                sessionBuilder.setIpWhitelist(whitelist);
             }
             if (proxyUrl != null) {
                 sessionBuilder.setProxyUrl(proxyUrl);
