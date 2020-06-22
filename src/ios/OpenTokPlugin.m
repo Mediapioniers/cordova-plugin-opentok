@@ -95,7 +95,7 @@
         _sessionSettings.ipWhitelist = whitelist;
     }
     if (proxyUrl != [NSNull null]) {
-        _sessionSettings.proxyURL = whitelist;
+        _sessionSettings.proxyURL = proxyUrl;
     }
 
     // Create Session

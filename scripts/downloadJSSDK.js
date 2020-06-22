@@ -6,7 +6,7 @@ module.exports = function (context) {
         Q = require('q'),
         deferral = new Q.defer();
     console.log('Downloading OpenTok JS SDK ' + jsSDKVersion);
-    downloadFile('https://enterprise.opentok.com/' + jsSDKVersion + '/js/opentok.js', './opentok-web.js', function (err) {
+    downloadFile('https://enterprise.opentok.com/' + jsSDKVersion + '/js/opentok.js', context.opts.plugin.dir + '/opentok-web.js', function (err) {
         if (!err) {
             console.log('Downloaded OpenTok JS SDK ' + jsSDKVersion);
             deferral.resolve();

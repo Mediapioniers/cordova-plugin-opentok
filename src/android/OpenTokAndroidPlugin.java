@@ -653,7 +653,7 @@ public class OpenTokAndroidPlugin extends CordovaPlugin
             boolean whitelist = args.getBoolean(2);
             String proxyUrl = args.getString(3);
 
-            Session.Builder sessionBuilder = Session.Builder(this.cordova.getActivity().getApplicationContext(), apiKey, sessionId))
+            Session.Builder sessionBuilder = Session.Builder(this.cordova.getActivity().getApplicationContext(), apiKey, sessionId));
             if (whitelist != null) {
                 sessionBuilder.setIpWhiteList(whitelist);
             }
