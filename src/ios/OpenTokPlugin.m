@@ -86,7 +86,7 @@
     // Get Parameters
     apiKey = [command.arguments objectAtIndex:0];
     sessionId = [command.arguments objectAtIndex:1];
-    Boolean *whitelist = [command.arguments objectAtIndex:2];
+    BOOL *whitelist = [command.arguments objectAtIndex:2, boolValue];
     NSString *proxyUrl = [command.arguments objectAtIndex:3];
 
     // OTSessionSettings
