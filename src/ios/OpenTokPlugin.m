@@ -91,10 +91,10 @@
 
     // OTSessionSettings
     OTSessionSettings* _sessionSettings = [[OTSessionSettings alloc] init];
-    if (whitelist != (id)[NSNull null]) {
+    if (whitelist != nil) {
         _sessionSettings.ipWhitelist = whitelist;
     }
-    if (proxyUrl != (id)[NSNull null]) {
+    if (proxyUrl != nil) {
         _sessionSettings.proxyURL = proxyUrl;
     }
 
