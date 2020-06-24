@@ -83,6 +83,7 @@
 
 // Called by TB.initsession()
 -(void)initSession:(CDVInvokedUrlCommand*)command{
+    NSLog(@"Creating new session with data: %@", command.arguments);
     // Get Parameters
     apiKey = [command.arguments objectAtIndex:0];
     sessionId = [command.arguments objectAtIndex:1];
