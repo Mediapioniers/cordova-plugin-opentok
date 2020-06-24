@@ -140,7 +140,7 @@ class TBSession
     @subscribers = {}
     @alreadyPublishing = false
     OT.getHelper().eventing(@)
-    Cordova.exec(TBSuccess, TBSuccess, OTPlugin, "initSession", [@apiKey, @sessionId, @options.whitelist || false, @options.proxyUrl] )
+    Cordova.exec(TBSuccess, TBSuccess, OTPlugin, "initSession", [@apiKey, @sessionId, @options.whitelist == true, @options.proxyUrl] )
   cleanUpDom: ->
     objects = document.getElementsByClassName('OT_root')
     while( objects.length > 0 )

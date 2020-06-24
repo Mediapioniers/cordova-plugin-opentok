@@ -38,7 +38,7 @@ window.OT = {
   },
   initSession: function(apiKey, sessionId, options) {
     if (sessionId == null) {
-      this.showError("OT.initSession takes 2 parameters, your API Key and Session ID");
+      this.showError("OT.initSession accepts 3 parameters, your API Key, Session ID and a optional Session Options object");
     }
     return new TBSession(apiKey, sessionId, options);
   },
@@ -961,7 +961,7 @@ TBSession = class TBSession {
     this.subscribers = {};
     this.alreadyPublishing = false;
     OT.getHelper().eventing(this);
-    Cordova.exec(TBSuccess, TBSuccess, OTPlugin, "initSession", [this.apiKey, this.sessionId, this.options.whitelist || false, this.options.proxyUrl]);
+    Cordova.exec(TBSuccess, TBSuccess, OTPlugin, "initSession", [this.apiKey, this.sessionId, this.options.whitelist === true, this.options.proxyUrl]);
   }
 
   cleanUpDom() {

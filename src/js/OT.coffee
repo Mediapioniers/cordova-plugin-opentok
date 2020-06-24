@@ -17,7 +17,7 @@ window.OT =
   initPublisher: (one, two) ->
     return new TBPublisher( one, two )
   initSession: (apiKey, sessionId, options) ->
-    if( not sessionId? ) then @showError( "OT.initSession takes 2 parameters, your API Key and Session ID" )
+    if( not sessionId? ) then @showError( "OT.initSession accepts 3 parameters, your API Key, Session ID and a optional Session Options object" )
     return new TBSession(apiKey, sessionId, options)
   log: (message) ->
     pdebug "TB LOG", message
