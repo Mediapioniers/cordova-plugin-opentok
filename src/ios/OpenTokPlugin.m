@@ -87,15 +87,15 @@
     apiKey = [command.arguments objectAtIndex:0];
     sessionId = [command.arguments objectAtIndex:1];
     BOOL *whitelist = [[command.arguments objectAtIndex:2] boolValue];
-    NSString *proxyUrl = [command.arguments objectAtIndex:3];
+    id proxyUrl = [command.arguments objectAtIndex:3];
 
     // OTSessionSettings
     OTSessionSettings* _sessionSettings = [[OTSessionSettings alloc] init];
     if (whitelist != nil) {
         _sessionSettings.ipWhitelist = whitelist;
     }
-    if (proxyUrl != nil) {
-        _sessionSettings.proxyURL = proxyUrl;
+    if (proxyUrl != [NSNull null]) {
+        _sessionSettings.proxyURL = (NSString *)proxyUrl;
     }
 
     // Create Session
