@@ -93,11 +93,9 @@
     // OTSessionSettings
     OTSessionSettings* _sessionSettings = [[OTSessionSettings alloc] init];
     if (whitelist != nil) {
-        NSLog(@"whitelist is not nil %d", whitelist);
         _sessionSettings.ipWhitelist = whitelist;
     }
     if (proxyUrl != [NSNull null]) {
-        NSLog(@"proxyUrl is not NSNull, %s", (NSString *)proxyUrl);
         _sessionSettings.proxyURL = (NSString *)proxyUrl;
     }
 
